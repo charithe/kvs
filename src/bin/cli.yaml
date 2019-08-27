@@ -1,0 +1,24 @@
+name: kvs
+author: "Charith Ellawala"
+subcommands:
+  - set:
+      about: Set a key-value pair
+      args:
+        - KEY:
+            required: true
+            index: 1
+        - VALUE:
+            required: true
+            index: 2
+  - get:
+      about: Get the value for a key
+      args:
+        - KEY:
+            required: true
+            index: 1
+  - rm:
+      about: Delete a key
+      args:
+        - KEY:
+            required: true
+            index: 1
