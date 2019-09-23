@@ -1,6 +1,7 @@
 extern crate structopt;
 
 use kvs::KvStore;
+use std::path::Path;
 use std::process;
 use structopt::StructOpt;
 
@@ -14,27 +15,25 @@ enum KvsApp {
     Remove { key: String },
 }
 
-fn run_app() -> Result<(), ()> {
+fn run_app() -> kvs::Result<()> {
     let app = KvsApp::from_args();
-    let mut kvs = KvStore::new();
+    let mut kvs = KvStore::open(Path::new("data.log"))?;
 
     match app {
         KvsApp::Set { key, value } => kvs.set(key, value),
-        KvsApp::Get { key } => {
-            kvs.get(key);
-        }
-        KvsApp::Remove { key } => {
-            kvs.remove(key);
-        }
+        KvsApp::Get { key } => kvs
+            .get(key)
+            .map(|v| println!("{}", v.unwrap_or_else(|| "Key not found".to_string()))),
+        KvsApp::Remove { key } => kvs.remove(key),
     }
-
-    eprintln!("unimplemented");
-    Err(())
 }
 
 fn main() {
     process::exit(match run_app() {
         Ok(_) => 0,
-        Err(_) => 1,
+        Err(err) => {
+            println!("{}", err);
+            1
+        }
     });
 }

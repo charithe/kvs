@@ -16,7 +16,14 @@ doctest = false
 [dependencies]
 clap = {version="~2.33.0", features=["yaml"]}
 structopt = "0.2"
+failure = "0.1.5"
+failure_derive = "0.1.5"
+serde = { version = "1.0", features = ["derive"] }
+rmp-serde = "0.14.0"
+lru = "0.1.17"
 
 [dev-dependencies]
 assert_cmd = "0.11.0"
 predicates = "1.0.0"
+tempfile = "3.0.7"
+walkdir = "2.2.7"
